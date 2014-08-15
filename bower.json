@@ -1,0 +1,23 @@
+{
+  "name": "object-editor",
+  "version": "0.5.0",
+  "homepage": "https://github.com/barakedry/object-editor",
+  "authors": [
+    "Barak Edry <barak.edry@gmail.com>"
+  ],
+  "description": "AngularJS directive for viewing and editing a javascript object",
+  "keywords": [
+    "object",
+    "directive",
+    "scope"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "app/components",
+    "test",
+    "tests"
+  ]
+}
