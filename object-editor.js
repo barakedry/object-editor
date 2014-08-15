@@ -5,6 +5,8 @@
 (function () {
     'use strict';
 
+    var $ = angular.element;
+
     angular.module('objectEditor', [])
         .directive('objectEditor', function () {
             return {
@@ -24,29 +26,29 @@
 
                         scope.addSubject = angular.isArray(scope.object) ? 'Value' : 'Property';
 
-                        var $menu = angular.element("#objecteditor-types-menu");
+                        var $menu = $(document.getElementById("objecteditor-types-menu"));
 
                         function bodyClick(e) {
-                            if ($menu.find(angular.element(e.target)).length === 0) {
-                                $menu.hide();
-                                angular.element(document.body).off("click", bodyClick);
+                            if ($menu.find($(e.target)).length === 0) {
+                                //$menu[0].style.display = "none";
+                                $(document.body).off("click", bodyClick);
                             }
                         }
 
                         // create menu
                         if (!$menu.length) {
-                            $menu = angular.element("<ul/>").attr("id", "objecteditor-types-menu");
-                            $menu.append(angular.element("<li/>").data("type", "object").text("Object"))
-                                .append(angular.element("<li/>").data("type", "array").text("Array"))
-                                .append(angular.element("<li/>").data("type", "string").text("String"))
-                                .append(angular.element("<li/>").data("type", "number").text("Number"))
-                                .append(angular.element("<li/>").data("type", "boolean").text("Boolean"));
+                            $menu = $("<ul/>").attr("id", "objecteditor-types-menu");
+                            $menu.append($("<li/>").data("type", "object").text("Object"))
+                                .append($("<li/>").data("type", "array").text("Array"))
+                                .append($("<li/>").data("type", "string").text("String"))
+                                .append($("<li/>").data("type", "number").text("Number"))
+                                .append($("<li/>").data("type", "boolean").text("Boolean"));
 
-                            angular.element(document.body).append($menu);
+                            $(document.body).append($menu);
 
                             $menu.on("click", function (e) {
                                 var val,
-                                    type =  angular.element(e.target).data("type");
+                                    type =  $(e.target).data("type");
 
                                 if (type === "object") {
                                     val = {};
@@ -60,24 +62,25 @@
                                     val = false;
                                 }
 
-                                $menu.hide();
-                                angular.element(document.body).off("click", bodyClick);
-                                $menu.trigger("itemSelection", [val]);
+                                $menu[0].style.display = "none";
+                                $(document.body).off("click", bodyClick);
+                                $menu.data("itemSelection")(val);
                             });
 
                         }
 
-                        element.find(".add").on("click", function () {
+                        $(element[0].querySelector(".add")).on("click", function () {
 
-                            var $addButton = angular.element(this);
+                            var $addButton = $(this);
 
                             //show the menu
-                            $menu.css({top: $addButton.offset().top + $addButton.height() + "px",
-                                left: $addButton.offset().left  + "px"});
 
-                            $menu.show();
+                            var rect = this.getBoundingClientRect();
+                            $menu[0].style.top = rect.top + rect.height + "px";
+                            $menu[0].style.left = rect.left + "px";
+                            $menu[0].style.display = "block";
 
-                            function itemSelected(e, val) {
+                            function itemSelected(val) {
                                 var newKeyName;
 
                                 if (angular.isArray(scope.object)) {
@@ -90,11 +93,11 @@
                                 }
                                 scope.objectChange();
 
-                                $menu.off("itemSelection", itemSelected);
+                                $menu.data("itemSelection", null);
                             }
 
-                            $menu.on("itemSelection", itemSelected);
-                            angular.element(document.body).on("click", bodyClick);
+                            $menu.data("itemSelection", itemSelected);
+                            $(document.body).on("click", bodyClick);
                             return false;
                         });
 
@@ -125,7 +128,7 @@
                 },
                 template: "<li class='{{type}} {{expanedCollapsed}}'><button name='delete' class='delete' title='Delete'></button><button class='expandCollapse'></button><label>{{name}}:</label> {{start}} <span class='type {{type}} {{editingClass}}'></span></li>",
                 link: {
-                    pre: function (scope, element) {
+                    pre: function (scope, element, attrs) {
                         var value,
                             typeElement,
                             type,
@@ -186,7 +189,7 @@
                                 return scope.isPrimitive && (scope.editing ||  scope.inputType === "checkbox");
                             };
 
-                            typeElement = element.find(".type").empty();
+                            typeElement = $(element[0].querySelector(".type")).empty();
 
                             if (scope.isPrimitive) {
                                 inputHTML =  "<input type='" + scope.inputType + "' data-ng-model='parent[name]' ng-switch-case='isBoolean'>";
@@ -199,11 +202,11 @@
                             $compile(typeElement.contents())(scope);
 
 
-                            element.find("span.textValue, .duplicate").unbind("click");
-                            element.find("input").unbind("blur");
+                            $(element[0].querySelector("span.textValue, .duplicate")).unbind("click");
+                            element.find("input").off("blur");
 
                             if (type === 'string' || type === 'number') {
-                                element.find("span.textValue").on("click", function () {
+                                $(element[0].querySelector("span.textValue")).on("click", function () {
                                     scope.editing = true;
                                     scope.editingClass = "editing";
                                     scope.$apply();
@@ -216,7 +219,7 @@
                                 });
                             }
 
-                            element.find(".duplicate").on("click", function () {
+                            $(element[0].querySelector(".duplicate")).on("click", function () {
 
                                 var newKeyName;
 
@@ -233,25 +236,25 @@
                             });
 
 
-                            element.find(".run").on("click", function () {
+                            $(element[0].querySelector(".run")).on("click", function () {
                                 scope.parent[scope.name].call(scope.parent[scope.name]);
                             });
 
-                            element.find(".runWithParams").on("click", function () {
+                            $(element[0].querySelector(".runWithParams")).on("click", function () {
                                 var args = prompt("arguments (comma delimited)") || "";
                                 scope.parent[scope.name].apply(scope.parent[scope.name], args.split(","));
                             });
 
-                            childElement = element.find("ul.objecteditor");
+                            childElement = $(element[0].querySelector("ul.objecteditor"));
                             if (childElement.length) {
                                 childElement.remove();
-                                element.find(".end").remove();
+                                $(element[0].querySelector(".end")).remove();
                             }
 
                             if (typeof value === 'object') {
-                                $compile(editorHTML)(scope, function (cloned) {
+                                $compile(editorHTML)(scope, function (cloned, scope) {
                                     element.append(cloned);
-                                    element.append(angular.element("<span/>").addClass("end").addClass(type).text(isArray ? ']' : '}'));
+                                    element.append($("<span/>").addClass("end").addClass(type).text(isArray ? ']' : '}'));
                                 });
                             }
                         }
@@ -259,7 +262,7 @@
 
                         create();
 
-                        element.find(".expandCollapse").on("click", function () {
+                        $(element[0].querySelector(".expandCollapse")).on("click", function () {
                             if (scope.expanedCollapsed === "expanded") {
                                 scope.expanedCollapsed = "collapsed";
                             } else {
@@ -273,13 +276,14 @@
                         scope.$watch("editing", function (isEditing) {
                             if (isEditing) {
                                 setTimeout(function () {
-                                    element.find("input").focus().select();
+                                    element.find("input")[0].focus();
+                                    element.find("input")[0].select();
                                 }, 1);
 
                             }
                         });
 
-                        element.find(".delete").on("click", function () {
+                        $(element[0].querySelector(".delete")).on("click", function () {
 
                             if (angular.isArray(scope.parent)) {
                                 scope.parent.splice(Number(scope.name), 1);
@@ -298,8 +302,6 @@
                                 create();
                             }
                         });
-
-
                     }
                 }
             };
