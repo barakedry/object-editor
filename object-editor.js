@@ -24,29 +24,29 @@
 
                         scope.addSubject = angular.isArray(scope.object) ? 'Value' : 'Property';
 
-                        var $menu = $("#objecteditor-types-menu");
+                        var $menu = angular.element("#objecteditor-types-menu");
 
                         function bodyClick(e) {
-                            if ($menu.find($(e.target)).length === 0) {
+                            if ($menu.find(angular.element(e.target)).length === 0) {
                                 $menu.hide();
-                                $(document.body).off("click", bodyClick);
+                                angular.element(document.body).off("click", bodyClick);
                             }
                         }
 
                         // create menu
                         if (!$menu.length) {
-                            $menu = $("<ul/>").attr("id", "objecteditor-types-menu");
-                            $menu.append($("<li/>").data("type", "object").text("Object"))
-                                .append($("<li/>").data("type", "array").text("Array"))
-                                .append($("<li/>").data("type", "string").text("String"))
-                                .append($("<li/>").data("type", "number").text("Number"))
-                                .append($("<li/>").data("type", "boolean").text("Boolean"));
+                            $menu = angular.element("<ul/>").attr("id", "objecteditor-types-menu");
+                            $menu.append(angular.element("<li/>").data("type", "object").text("Object"))
+                                .append(angular.element("<li/>").data("type", "array").text("Array"))
+                                .append(angular.element("<li/>").data("type", "string").text("String"))
+                                .append(angular.element("<li/>").data("type", "number").text("Number"))
+                                .append(angular.element("<li/>").data("type", "boolean").text("Boolean"));
 
-                            $(document.body).append($menu);
+                            angular.element(document.body).append($menu);
 
                             $menu.on("click", function (e) {
                                 var val,
-                                    type =  $(e.target).data("type");
+                                    type =  angular.element(e.target).data("type");
 
                                 if (type === "object") {
                                     val = {};
@@ -61,7 +61,7 @@
                                 }
 
                                 $menu.hide();
-                                $(document.body).off("click", bodyClick);
+                                angular.element(document.body).off("click", bodyClick);
                                 $menu.trigger("itemSelection", [val]);
                             });
 
@@ -69,7 +69,7 @@
 
                         element.find(".add").on("click", function () {
 
-                            var $addButton = $(this);
+                            var $addButton = angular.element(this);
 
                             //show the menu
                             $menu.css({top: $addButton.offset().top + $addButton.height() + "px",
@@ -94,7 +94,7 @@
                             }
 
                             $menu.on("itemSelection", itemSelected);
-                            $(document.body).on("click", bodyClick);
+                            angular.element(document.body).on("click", bodyClick);
                             return false;
                         });
 
@@ -251,7 +251,7 @@
                             if (typeof value === 'object') {
                                 $compile(editorHTML)(scope, function (cloned) {
                                     element.append(cloned);
-                                    element.append($("<span/>").addClass("end").addClass(type).text(isArray ? ']' : '}'));
+                                    element.append(angular.element("<span/>").addClass("end").addClass(type).text(isArray ? ']' : '}'));
                                 });
                             }
                         }
