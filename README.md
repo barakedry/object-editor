@@ -18,12 +18,12 @@ bower install object-editor
 
 or just download it as a zip and embed the files in your project
 
-## include the module your angular application
+## Inject to your angular application
 ```javascript
 angular.module('my-app', ['objectEditor']);
 ```
 
-## use inside a view or template
+## Use inside a view or template
 ```html
 <object-editor object='someObjectInYourScope'></object-editor>
 ```
