@@ -5,7 +5,7 @@ a simple AngularJS directive for viewing and editing a javascript object
 
 object-editor is useful for debugging an object in the scope 
 
-//[try the demo](http://www.github.com)
+//[try the demo](http://jsfiddle.net/barakedry/xxg7fhj0/1/)
 
 # How to use
 ## Installation
