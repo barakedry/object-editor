@@ -15,12 +15,10 @@ object-editor is useful for debugging an object in the scope
 bower install object-editor
 ```
 
-
-or download the zip and embed 
+or download the zip and include in your project this files:
 * object-editor.js
 * object-editor.css
 
-in your project
 
 ## Inject to your angular app
 ```javascript
