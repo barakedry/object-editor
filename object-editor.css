@@ -71,12 +71,9 @@ ul.object-editor:hover > li > button.add {
 
 
 ul.object-editor ul:hover {
-    transition: background 0.55s linear 0.1s;
-    background-color: rgba(0,0,0,0.05);
-
+    transition: background 0.55s linear 1s;
+    background-color: rgba(0,0,0,0.02);
 }
-
-
 
 
 ul.object-editor label {
