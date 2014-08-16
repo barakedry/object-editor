@@ -31,7 +31,7 @@
                         function bodyClick(e) {
                             if ($menu.find($(e.target)).length === 0) {
                                 //$menu[0].style.display = "none";
-                                $(document.body).off("click", bodyClick);
+                                $(document.body).unbind("click", bodyClick);
                             }
                         }
 
@@ -63,7 +63,7 @@
                                 }
 
                                 $menu[0].style.display = "none";
-                                $(document.body).off("click", bodyClick);
+                                $(document.body).unbind("click", bodyClick);
                                 $menu.data("itemSelection")(val);
                             });
 
@@ -97,7 +97,7 @@
                             }
 
                             $menu.data("itemSelection", itemSelected);
-                            $(document.body).on("click", bodyClick);
+                            $(document.body).bind("click", bodyClick);
                             return false;
                         });
 
@@ -189,7 +189,8 @@
                                 return scope.isPrimitive && (scope.editing ||  scope.inputType === "checkbox");
                             };
 
-                            typeElement = $(element[0].querySelector(".type")).empty();
+                            typeElement = $(element[0].querySelector(".type"));
+                            typeElement[0].innerHTML = 0;
 
                             if (scope.isPrimitive) {
                                 inputHTML =  "<input type='" + scope.inputType + "' data-ng-model='parent[name]' ng-switch-case='isBoolean'>";
@@ -203,23 +204,23 @@
 
 
                             $(element[0].querySelector("span.textValue, .duplicate")).unbind("click");
-                            element.find("input").off("blur");
+                            element.find("input").unbind("blur");
 
                             if (type === 'string' || type === 'number') {
-                                $(element[0].querySelector("span.textValue")).on("click", function () {
+                                $(element[0].querySelector("span.textValue")).bind("click", function () {
                                     scope.editing = true;
                                     scope.editingClass = "editing";
                                     scope.$apply();
                                 });
 
-                                element.find("input").on("blur", function () {
+                                element.find("input").bind("blur", function () {
                                     scope.editingClass = "";
                                     scope.editing = false;
                                     scope.$apply();
                                 });
                             }
 
-                            $(element[0].querySelector(".duplicate")).on("click", function () {
+                            $(element[0].querySelector(".duplicate")).bind("click", function () {
 
                                 var newKeyName;
 
@@ -236,11 +237,11 @@
                             });
 
 
-                            $(element[0].querySelector(".run")).on("click", function () {
+                            $(element[0].querySelector(".run")).bind("click", function () {
                                 scope.parent[scope.name].call(scope.parent[scope.name]);
                             });
 
-                            $(element[0].querySelector(".runWithParams")).on("click", function () {
+                            $(element[0].querySelector(".runWithParams")).bind("click", function () {
                                 var args = prompt("arguments (comma delimited)") || "";
                                 scope.parent[scope.name].apply(scope.parent[scope.name], args.split(","));
                             });
@@ -272,8 +273,8 @@
                             scope.$apply();
                         }
 
-                        $(element[0].querySelector(".expandCollapse")).on("click", expandCollapse);
-                        element.find("label").eq(0).on("dblclick", expandCollapse);
+                        $(element[0].querySelector(".expandCollapse")).bind("click", expandCollapse);
+                        element.find("label").eq(0).bind("dblclick", expandCollapse);
 
 
                         scope.$watch("editing", function (isEditing) {
@@ -286,7 +287,7 @@
                             }
                         });
 
-                        $(element[0].querySelector(".delete")).on("click", function () {
+                        $(element[0].querySelector(".delete")).bind("click", function () {
 
                             if (angular.isArray(scope.parent)) {
                                 scope.parent.splice(Number(scope.name), 1);
