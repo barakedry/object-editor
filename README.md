@@ -10,17 +10,19 @@ object-editor is useful for debugging an object in the scope
 # How to use
 ## Installation
 
-install using bower
+###using bower
 ```bash
 bower install object-editor
 ```
 
+
 or download the zip and embed 
 * object-editor.js
 * object-editor.css
+
 in your project
 
-## Inject to your angular application
+## Inject to your angular app
 ```javascript
 angular.module('my-app', ['objectEditor']);
 ```
