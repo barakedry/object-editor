@@ -1,7 +1,9 @@
 ul.object-editor, ul.object-editor li {
     padding: 0;
     margin: 0;
+
 }
+
 
 ul.object-editor, ul.object-editor * {
     vertical-align: middle;
@@ -9,15 +11,23 @@ ul.object-editor, ul.object-editor * {
 
 ul.object-editor {
     list-style: none;
-    font-size: 12px;
     vertical-align: middle;
     padding-left: 16px;
+
+    moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
 
+ul.object-editor, ul.object-editor input {
+    font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace, serif;
+    font-size: 12px;
+
+}
 
 ul.object-editor li {
     margin: 1px;
-    margin-top: 3px;
+    margin-top: 2px;
     vertical-align: middle;
     font-weight: bold;
 }
@@ -44,18 +54,20 @@ ul.object-editor button.expandCollapse {
 }
 
 ul.object-editor button.delete,
+ul.object-editor button.add,
 ul.object-editor button.duplicate {
     visibility: hidden;
 }
 
 ul.object-editor li:hover > button,
-ul.object-editor li:hover > span > button.duplicate {
+ul.object-editor li:hover > span > button.duplicate,
+ul.object-editor:hover > li > button.add {
     visibility: visible;
 }
 
 
 ul.object-editor ul:hover {
-    transition: background 0.25s linear 1s;
+    transition: background 0.25s linear 0.5s;
     background-color: rgba(0,0,0,0.05);
 }
 
@@ -146,12 +158,15 @@ ul.object-editor .collapsed ul {
 
 ul.object-editor .type input {
     display: none;
-    padding: 1px;
+    padding: 0;
+    border-width: 1px;
 }
 
 ul.object-editor .type.editing input {
     display: inline;
-
+    moz-user-select: text;
+    -webkit-user-select: text;
+    -ms-user-select: text;
 }
 
 ul.object-editor .type.editing .textValue {
@@ -177,13 +192,19 @@ ul.object-editor .textValue {
 
 ul.object-editor .textValue {
     display: inline-block;
-    min-width: 16px;
+}
+
+ul.object-editor .type.number .textValue,  ul.object-editor input[type='number'],
+ul.object-editor .type.string .textValue,  ul.object-editor input[type='text'] {
+    min-width: 40px;
     min-height: 12px;
     cursor: text;
 }
 
-ul.object-editor .textValue:hover {
-    background: white;
+ul.object-editor .type.number .textValue:hover ,
+ul.object-editor .type.string .textValue:hover {
+    outline: 1px solid rgba(0,0,0, 0.5);
+    background-color: rgba(255,255,255, 0.8);
 }
 
 
@@ -195,7 +216,7 @@ ul.object-editor .end {
 
 #objecteditor-types-menu {
     margin: 0;
-    padding: 0;
+    padding: 0px;
     list-style: none;
     display: none;
     position: absolute;

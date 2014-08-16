@@ -262,7 +262,7 @@
 
                         create();
 
-                        $(element[0].querySelector(".expandCollapse")).on("click", function () {
+                        function expandCollapse () {
                             if (scope.expanedCollapsed === "expanded") {
                                 scope.expanedCollapsed = "collapsed";
                             } else {
@@ -270,7 +270,10 @@
                             }
 
                             scope.$apply();
-                        });
+                        }
+
+                        $(element[0].querySelector(".expandCollapse")).on("click", expandCollapse);
+                        element.find("label").eq(0).on("dblclick", expandCollapse);
 
 
                         scope.$watch("editing", function (isEditing) {
