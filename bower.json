@@ -8,8 +8,12 @@
   "description": "AngularJS directive for viewing and editing a javascript object",
   "keywords": [
     "object",
+    "editor",
+    "debug",
+    "debugging",
     "directive",
-    "scope"
+    "scope",
+    "json"
   ],
   "license": "MIT",
   "ignore": [
