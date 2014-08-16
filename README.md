@@ -10,12 +10,13 @@ object-editor is useful for debugging an object in the scope
 # How to use
 ## Installation
 
-###using bower
+use bower or download the zip
+
 ```bash
 bower install object-editor
 ```
 
-or download the zip and include in your project this files:
+Include the following files in your project:
 * object-editor.js
 * object-editor.css
 
